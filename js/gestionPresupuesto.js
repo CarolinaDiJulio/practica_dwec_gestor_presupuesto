@@ -51,10 +51,10 @@ function CrearGasto(descripcion, valor,fecha,...etiquetas) {
 
 CrearGasto.prototype.mostrarGastoCompleto=function(){
     let fecha1=new Date(this.fecha).toLocaleString();
-    let gastoCompleto= `${this.mostrarGasto()}. \nFecha: ${fecha1} \nEtiquetas:` 
+    let gastoCompleto= `${this.mostrarGasto()}.\nFecha: ${fecha1}\nEtiquetas:\n` 
    
    for (this.etiqueta of this.etiquetas){
-    gastoCompleto+="\n- "+this.etiqueta
+    gastoCompleto+=`- ${this.etiqueta}\n`
    }
    return gastoCompleto
 }
