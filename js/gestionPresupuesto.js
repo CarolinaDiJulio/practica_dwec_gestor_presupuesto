@@ -49,6 +49,14 @@ function CrearGasto(descripcion, valor,fecha,...etiquetas) {
     }
 }
 
+CrearGasto.prototype.mostrarGastoCompleto=function(){
+   
+}
+CrearGasto.prototype.actualizarFecha=function(nuevaFecha){
+    if(!isNaN(Date.parse(nuevaFecha))){
+        this.fecha=Date.parse(nuevaFecha)
+    }
+}
 function listarGastos(){
     return gastos
 }
