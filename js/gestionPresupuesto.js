@@ -50,16 +50,29 @@ function CrearGasto(descripcion, valor,fecha,...etiquetas) {
 }
 
 CrearGasto.prototype.mostrarGastoCompleto=function(){
+    let fecha1=new Date(this.fecha).toLocaleString();
+    let gastoCompleto= `${this.mostrarGasto()}. \nFecha: ${fecha1} \nEtiquetas:` 
    
+   for (this.etiqueta of this.etiquetas){
+    gastoCompleto+="\n- "+this.etiqueta
+   }
+   return gastoCompleto
 }
+
 CrearGasto.prototype.actualizarFecha=function(nuevaFecha){
     if(!isNaN(Date.parse(nuevaFecha))){
         this.fecha=Date.parse(nuevaFecha)
     }
 }
+
+CrearGasto.prototype.anyadirEtiquetas=function(){
+    
+}
+
 function listarGastos(){
     return gastos
 }
+
 function anyadirGasto(gasto1){
     gasto1.id=idGasto;
     idGasto++
@@ -79,8 +92,9 @@ function calcularTotalGastos(){
     return suma;
 }
 function calcularBalance(){
-    let gastosTotales=calcularTotalGastos();
-    let balance=presupuesto-gastosTotales;
+
+    let balance=presupuesto-calcularTotalGastos();
+
     return balance
 }
 
