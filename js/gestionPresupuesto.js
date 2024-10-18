@@ -51,8 +51,11 @@ function anyadirGasto(gasto1){
     idGasto++
     gastos.push(gasto1)
 }
-function borrarGasto(){
-
+function borrarGasto(identificador){
+    let encontrado=gastos.findIndex(gasto=>gasto.id==identificador)
+    if (encontrado>-1){
+        gastos.splice(encontrado,1)
+    }
 }
 function calcularTotalGastos(){}
 function calcularBalance(){}
