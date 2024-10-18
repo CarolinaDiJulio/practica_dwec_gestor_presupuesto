@@ -21,8 +21,12 @@ function mostrarPresupuesto() {
 
 function CrearGasto(descripcion, valor) {
     this.descripcion=descripcion
-    if(valor>0){
+    if (isNaN(valor)){
+        this.valor=0;
+    }
+    if (valor>0){
         this.valor=Number(valor)
+        
     }else{
         this.valor=0;
     }
@@ -42,8 +46,14 @@ function CrearGasto(descripcion, valor) {
 function listarGastos(){
     return gastos
 }
-function anyadirGasto(){}
-function borrarGasto(){}
+function anyadirGasto(gasto1){
+    gasto1.id=idGasto;
+    idGasto++
+    gastos.push(gasto1)
+}
+function borrarGasto(){
+
+}
 function calcularTotalGastos(){}
 function calcularBalance(){}
 
