@@ -4,10 +4,7 @@ let idGasto=0;
 
 
 function actualizarPresupuesto(presu) {
-    if (isNaN(presu)){
-        return -1
-    }
-    if(presu <0){
+    if (isNaN(presu) || presu <0){
         return -1
     }
 
@@ -19,17 +16,26 @@ function mostrarPresupuesto() {
     return `Tu presupuesto actual es de ${presupuesto} €`
 }
 
-function CrearGasto(descripcion, valor) {
+function CrearGasto(descripcion, valor,fecha,...etiquetas) {
     this.descripcion=descripcion
-    if (isNaN(valor)){
+    if (isNaN(valor) || valor<=0){
         this.valor=0;
-    }
-    if (valor>0){
-        this.valor=valor
-        
     }else{
-        this.valor=0;
+        this.valor=valor
     }
+
+    if (!fecha || isNaN(Date.parse(fecha))){
+        this.fecha=Date.now();
+    }else{
+        this.fecha=Date.parse(fecha)
+    }
+
+    if(!etiquetas){
+        this.etiquetas=[]
+    }else{
+        this.etiquetas=etiquetas
+    }
+    
     this.mostrarGasto=function(){
         return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`
     }
