@@ -25,7 +25,7 @@ function CrearGasto(descripcion, valor) {
         this.valor=0;
     }
     if (valor>0){
-        this.valor=Number(valor)
+        this.valor=valor
         
     }else{
         this.valor=0;
@@ -57,8 +57,18 @@ function borrarGasto(identificador){
         gastos.splice(encontrado,1)
     }
 }
-function calcularTotalGastos(){}
-function calcularBalance(){}
+function calcularTotalGastos(){
+    let suma=0;
+    gastos.forEach(gasto => {
+        suma+=gasto.valor
+    });
+    return suma;
+}
+function calcularBalance(){
+    let gastosTotales=calcularTotalGastos();
+    let balance=presupuesto-gastosTotales;
+    return balance
+}
 
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
