@@ -18,11 +18,12 @@ function mostrarPresupuesto() {
 
 function CrearGasto(descripcion, valor,fecha,...etiquetas) {
     this.descripcion=descripcion
-    if (isNaN(valor) || valor<=0){
-        this.valor=0;
-    }else{
-        this.valor=valor
-    }
+    this.valor=(isNaN(valor) || valor<=0) ? 0 : valor
+    // if (isNaN(valor) || valor<=0){
+    //     this.valor=0;
+    // }else{
+    //     this.valor=valor
+    // }
 
     if (!fecha || isNaN(Date.parse(fecha))){
         this.fecha=Date.now();
@@ -50,8 +51,9 @@ function CrearGasto(descripcion, valor,fecha,...etiquetas) {
 }
 
 CrearGasto.prototype.mostrarGastoCompleto=function(){
-    let fecha1=new Date(this.fecha).toLocaleString();
-    let gastoCompleto= `${this.mostrarGasto()}.\nFecha: ${fecha1}\nEtiquetas:\n` 
+    let fechaLocal=new Date(this.fecha).toLocaleString();
+
+    let gastoCompleto= `${this.mostrarGasto()}.\nFecha: ${fechaLocal}\nEtiquetas:\n` 
    
    for (this.etiqueta of this.etiquetas){
     gastoCompleto+=`- ${this.etiqueta}\n`
@@ -65,8 +67,16 @@ CrearGasto.prototype.actualizarFecha=function(nuevaFecha){
     }
 }
 
-CrearGasto.prototype.anyadirEtiquetas=function(){
+CrearGasto.prototype.anyadirEtiquetas=function(...etiquetasNuevas){
+    etiquetasNuevas.forEach(et => {
+        if (!this.etiquetas.includes(et)){
+            this.etiquetas.push(et)
+        }
+    });
     
+}
+CrearGasto.prototype.borrarEtiquetas=function(...etiquetasABorrar){
+   this.etiquetas=this.etiquetas.filter(etiqueta=>!etiquetasABorrar.includes(etiqueta))
 }
 
 function listarGastos(){
@@ -79,7 +89,7 @@ function anyadirGasto(gasto1){
     gastos.push(gasto1)
 }
 function borrarGasto(identificador){
-    let encontrado=gastos.findIndex(gasto=>gasto.id==identificador)
+    let encontrado=gastos.findIndex(gasto=>gasto.id===identificador)
     if (encontrado>-1){
         gastos.splice(encontrado,1)
     }
