@@ -17,32 +17,20 @@ function mostrarPresupuesto() {
 }
 
 function CrearGasto(descripcion, valor,fecha,...etiquetas) {
+
     this.descripcion=descripcion
     this.valor=(isNaN(valor) || valor<=0) ? 0 : valor
-    // if (isNaN(valor) || valor<=0){
-    //     this.valor=0;
-    // }else{
-    //     this.valor=valor
-    // }
+    this.fecha=(!fecha || isNaN(Date.parse(fecha))) ? Date.now() : Date.parse(fecha);
+    this.etiquetas=(!etiquetas)? [] : etiquetas
 
-    if (!fecha || isNaN(Date.parse(fecha))){
-        this.fecha=Date.now();
-    }else{
-        this.fecha=Date.parse(fecha)
-    }
-
-    if(!etiquetas){
-        this.etiquetas=[]
-    }else{
-        this.etiquetas=etiquetas
-    }
-    
     this.mostrarGasto=function(){
         return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`
     }
+
     this.actualizarDescripcion=function(descripcionNueva){
         this.descripcion=descripcionNueva
     }
+
     this.actualizarValor=function(valorNuevo){
         if (valorNuevo>0){
             this.valor=valorNuevo
@@ -52,7 +40,6 @@ function CrearGasto(descripcion, valor,fecha,...etiquetas) {
 
 CrearGasto.prototype.mostrarGastoCompleto=function(){
     let fechaLocal=new Date(this.fecha).toLocaleString();
-
     let gastoCompleto= `${this.mostrarGasto()}.\nFecha: ${fechaLocal}\nEtiquetas:\n` 
    
    for (this.etiqueta of this.etiquetas){
@@ -68,9 +55,9 @@ CrearGasto.prototype.actualizarFecha=function(nuevaFecha){
 }
 
 CrearGasto.prototype.anyadirEtiquetas=function(...etiquetasNuevas){
-    etiquetasNuevas.forEach(et => {
-        if (!this.etiquetas.includes(et)){
-            this.etiquetas.push(et)
+    etiquetasNuevas.forEach(etiquetaNueva => {
+        if (!this.etiquetas.includes(etiquetaNueva)){
+            this.etiquetas.push(etiquetaNueva)
         }
     });
     
@@ -83,26 +70,29 @@ function listarGastos(){
     return gastos
 }
 
-function anyadirGasto(gasto1){
-    gasto1.id=idGasto;
+function anyadirGasto(gastoNuevo){
+    gastoNuevo.id=idGasto;
     idGasto++
-    gastos.push(gasto1)
+    gastos.push(gastoNuevo)
 }
 function borrarGasto(identificador){
     let encontrado=gastos.findIndex(gasto=>gasto.id===identificador)
+
     if (encontrado>-1){
         gastos.splice(encontrado,1)
     }
 }
+
 function calcularTotalGastos(){
     let suma=0;
+
     gastos.forEach(gasto => {
         suma+=gasto.valor
     });
+    
     return suma;
 }
 function calcularBalance(){
-
     let balance=presupuesto-calcularTotalGastos();
 
     return balance
