@@ -65,7 +65,23 @@ CrearGasto.prototype.anyadirEtiquetas=function(...etiquetasNuevas){
 CrearGasto.prototype.borrarEtiquetas=function(...etiquetasABorrar){
    this.etiquetas=this.etiquetas.filter(etiqueta=>!etiquetasABorrar.includes(etiqueta))
 }
+CrearGasto.prototype.obtenerPeriodoAgrupacion=function(periodo){
+    let fecha=new Date(this.fecha);
+    let diaFecha=fecha.getDate();
+    let mesFecha=fecha.getMonth()+1;
+    let anyoFecha=fecha.getFullYear();
 
+    if(periodo=="dia"){
+        return `${anyoFecha}-${mesFecha}-${diaFecha}`;
+    }
+    if (periodo=="mes"){
+        return `${anyoFecha}-${mesFecha}`;
+    }
+    
+    if (periodo=="anyo"){
+        return anyoFecha;
+    }
+}
 function listarGastos(){
     return gastos
 }
@@ -97,6 +113,12 @@ function calcularBalance(){
 
     return balance
 }
+function filtrarGastos(){
+
+}
+function agruparGastos(){
+
+}
 
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
@@ -110,5 +132,7 @@ export   {
     anyadirGasto,
     borrarGasto,
     calcularTotalGastos,
-    calcularBalance 
+    calcularBalance,
+    filtrarGastos,
+    agruparGastos 
 }
