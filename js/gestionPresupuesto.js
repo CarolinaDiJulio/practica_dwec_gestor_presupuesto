@@ -67,15 +67,15 @@ CrearGasto.prototype.borrarEtiquetas=function(...etiquetasABorrar){
 }
 CrearGasto.prototype.obtenerPeriodoAgrupacion=function(periodo){
     let fecha=new Date(this.fecha);
-    let diaFecha=fecha.getDate();
-    let mesFecha=fecha.getMonth()+1;
+    let anyoMesDia=fecha.toISOString().substring(0,10);
+    let anyoMes=fecha.toISOString().substring(0,7);
     let anyoFecha=fecha.getFullYear();
 
     if(periodo=="dia"){
-        return `${anyoFecha}-${mesFecha}-${diaFecha}`;
+        return `${anyoMesDia}`
     }
     if (periodo=="mes"){
-        return `${anyoFecha}-${mesFecha}`;
+        return `${anyoMes}`
     }
     
     if (periodo=="anyo"){
@@ -113,9 +113,42 @@ function calcularBalance(){
 
     return balance
 }
-function filtrarGastos(){
+function filtrarGastos(objeto){
+  let gastosFiltrados=gastos.filter(function(gasto){
+    let cumple=true;
+    if(objeto.fechaDesde!=undefined && Date.parse(objeto.fechaDesde)>gasto.fecha){
+        cumple=false;
+    }
+    if(objeto.fechaHasta!=undefined && Date.parse(objeto.fechaHasta)<gasto.fecha){
+        cumple=false;
+    }
+    if(objeto.valorMinimo!=undefined && objeto.valorMinimo>gasto.valor){
+        cumple=false
+    }
+    if(objeto.valorMaximo!=undefined && objeto.valorMaximo<gasto.valor){
+        cumple=false
+    }
+    if(objeto.descripcionContiene!=undefined && !gasto.descripcion.toLowerCase().includes(objeto.descripcionContiene.toLowerCase())){
+        cumple=false
+    }
+    if(objeto.etiquetasTiene!=undefined){
+        let etiquetasObjeto=objeto.etiquetasTiene.map(function(etiquetaObjeto){
+            return etiquetaObjeto.toLowerCase()
+        })
+        let etiquetasGasto=gasto.etiquetas.map(function(etiquetaGasto){
+            return etiquetaGasto.toLowerCase()
+        })
+        
+        if(!etiquetasObjeto.some((et)=>etiquetasGasto.includes(et))){
+            cumple=false
+        }
+        
+    }
+    return cumple;
+});
+return gastosFiltrados
+  }
 
-}
 function agruparGastos(){
 
 }
