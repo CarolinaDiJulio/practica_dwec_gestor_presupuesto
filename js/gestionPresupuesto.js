@@ -150,16 +150,20 @@ return gastosFiltrados
   }
 
 function agruparGastos(periodo='mes',etiquetas,fechaDesde,fechaHasta){
-    let gastosFiltrados=filtrarGastos({etiquetas,fechaDesde,fechaHasta})
+    let obj={
+        fechaDesde:fechaDesde,
+        fechaHasta:fechaHasta,
+        etiquetasTiene: etiquetas}
+    let gastosFilt=filtrarGastos(obj)
     
-    return gastosFiltrados.reduce(function(acc,gastoFiltrado){
+    return gastosFilt.reduce(function(acc,gastoFiltrado){
         let periodoAgrupacion=gastoFiltrado.obtenerPeriodoAgrupacion(periodo)
        acc[periodoAgrupacion]=acc[periodoAgrupacion] || 0
        acc[periodoAgrupacion]=acc[periodoAgrupacion]+gastoFiltrado.valor
        return acc
-       
     },{});
 }
+
 
 
 
