@@ -138,7 +138,7 @@ function filtrarGastos(objeto){
         let etiquetasGasto=gasto.etiquetas.map(function(etiquetaGasto){
             return etiquetaGasto.toLowerCase()
         })
-        
+
         if(!etiquetasObjeto.some((et)=>etiquetasGasto.includes(et))){
             cumple=false
         }
@@ -149,9 +149,18 @@ function filtrarGastos(objeto){
 return gastosFiltrados
   }
 
-function agruparGastos(){
-
+function agruparGastos(periodo='mes',etiquetas,fechaDesde,fechaHasta){
+    let gastosFiltrados=filtrarGastos({etiquetas,fechaDesde,fechaHasta})
+    
+    return gastosFiltrados.reduce(function(acc,gastoFiltrado){
+        let periodoAgrupacion=gastoFiltrado.obtenerPeriodoAgrupacion(periodo)
+       acc[periodoAgrupacion]=acc[periodoAgrupacion] || 0
+       acc[periodoAgrupacion]=acc[periodoAgrupacion]+gastoFiltrado.valor
+       return acc
+       
+    },{});
 }
+
 
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
