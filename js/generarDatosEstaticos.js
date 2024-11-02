@@ -28,3 +28,9 @@ gestionPresupuestoWeb.mostrarDatoEnId("gastos-totales",gastosTotales)
 let balanceTotal=gestionPresupuesto.calcularBalance();
 
 gestionPresupuestoWeb.mostrarDatoEnId("balance-total",balanceTotal)
+
+let listadoGastos=gestionPresupuesto.listarGastos();
+
+for (let gasto of listadoGastos){
+    gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-completo",gasto)
+}

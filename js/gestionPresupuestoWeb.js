@@ -4,22 +4,29 @@ function mostrarDatoEnId(idElemento,valor){
 }
 function mostrarGastoWeb(idElemento,gasto){
     let elemento=document.getElementById(idElemento)
-    elemento.innerHTML=`
-    <div class="gasto">
+    let nuevoGasto=document.createElement("div")
+    nuevoGasto.classList.add("gasto")
+    nuevoGasto.innerHTML=`
+    
         <div class="gasto-descripcion">${gasto.descripcion}</div>
         <div class="gasto-fecha">${gasto.fecha}</div> 
         <div class="gasto-valor">${gasto.valor}</div> 
         <div class="gasto-etiquetas">
             
         </div>
-    </div>
+    
     `
-    let gastoEtiquetas=document.querySelector("gasto-etiquetas")
+    elemento.appendChild(nuevoGasto)
+
+    let gastoEtiquetas=document.querySelector(".gasto-etiquetas")
+ 
     gasto.etiquetas.forEach(etiqueta => {
-        gastoEtiquetas.innerHTML+=`<span class="gasto-etiquetas-etiqueta">
-     ${etiqueta}
-    </span>`
+        let nuevaEtiqueta=document.createElement("span")
+        nuevaEtiqueta.classList.add("gasto-etiquetas-etiqueta")
+        nuevaEtiqueta.textContent=etiqueta
+        gastoEtiquetas.appendChild(nuevaEtiqueta)
     });
+   
 }
 function mostrarGastoAgrupadosWeb(){}
 
