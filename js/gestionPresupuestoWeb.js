@@ -18,12 +18,12 @@ function mostrarGastoWeb(idElemento,gasto){
     `
     elemento.appendChild(nuevoGasto)
 
-    let gastoEtiquetas=document.querySelector(".gasto-etiquetas")
+    let gastoEtiquetas=nuevoGasto.querySelector(".gasto-etiquetas")
  
     gasto.etiquetas.forEach(etiqueta => {
         let nuevaEtiqueta=document.createElement("span")
         nuevaEtiqueta.classList.add("gasto-etiquetas-etiqueta")
-        nuevaEtiqueta.textContent=etiqueta
+        nuevaEtiqueta.textContent=`${etiqueta} `
         gastoEtiquetas.appendChild(nuevaEtiqueta)
     });
    
