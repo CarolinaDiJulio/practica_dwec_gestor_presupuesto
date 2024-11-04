@@ -28,7 +28,22 @@ function mostrarGastoWeb(idElemento,gasto){
     });
    
 }
-function mostrarGastoAgrupadosWeb(){}
+function mostrarGastoAgrupadosWeb(idElemento,agrup,periodo){
+    let elemento=document.getElementById(idElemento)
+    let nuevaAgrup=document.createElement("div")
+    nuevaAgrup.classList.add("agrupacion")
+    nuevaAgrup.innerHTML=`<h1>Gastos agrupados por ${periodo}</h1>`
+
+    elemento.appendChild(nuevaAgrup)
+
+    let agrupaciones=document.querySelector(".agrupacion")
+    Object.keys(agrup).forEach(prop => {
+        let nuevaProp=document.createElement("div")
+        nuevaProp.classList.add("agrupacion-dato")
+        nuevaProp.innerHTML=`<span class="agrupacion-dato-clave">${prop}</span>` 
+        agrupaciones.appendChild(nuevaProp)
+    });
+}
 
 export{
     mostrarDatoEnId,

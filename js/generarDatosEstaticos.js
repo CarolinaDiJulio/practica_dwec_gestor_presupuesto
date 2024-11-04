@@ -34,3 +34,28 @@ let listadoGastos=gestionPresupuesto.listarGastos();
 for (let gasto of listadoGastos){
     gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-completo",gasto)
 }
+
+let gastosSeptiembre2021=gestionPresupuesto.filtrarGastos({fechaDesde: "2021-09-01",fechaHasta:"2021-09-30"})
+
+for(let gasto of gastosSeptiembre2021){
+    gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-1",gasto)
+}
+
+let gastosMayoresA50=gestionPresupuesto.filtrarGastos({valorMinimo:50})
+
+for(let gasto of gastosMayoresA50){
+    gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-2", gasto)
+}
+
+let gastosMayoresA200=gestionPresupuesto.filtrarGastos({valorMinimo:200})
+
+for(let gasto of gastosMayoresA200){
+    gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-3", gasto)
+}
+let gastosMenorA50=gestionPresupuesto.filtrarGastos({valorMaximo:50})
+let gastosEtiquetaComida=gestionPresupuesto.filtrarGastos({etiquetasTiene: ["comida"]})
+let gastosEtiquetaTransporte=gestionPresupuesto.filtrarGastos({etiquetasTiene: ["transporte"]})
+
+for (let gasto of (gastosEtiquetaComida || gastosEtiquetaTransporte) && gastosMenorA50){
+    gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-4",gasto)
+}
