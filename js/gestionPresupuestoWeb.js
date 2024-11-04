@@ -5,11 +5,12 @@ function mostrarDatoEnId(idElemento,valor){
 function mostrarGastoWeb(idElemento,gasto){
     let elemento=document.getElementById(idElemento)
     let nuevoGasto=document.createElement("div")
+    let fecha= new Date(gasto.fecha)
     nuevoGasto.classList.add("gasto")
     nuevoGasto.innerHTML=`
     
         <div class="gasto-descripcion">${gasto.descripcion}</div>
-        <div class="gasto-fecha">${gasto.fecha}</div> 
+        <div class="gasto-fecha">${fecha}</div> 
         <div class="gasto-valor">${gasto.valor}</div> 
         <div class="gasto-etiquetas">
             
