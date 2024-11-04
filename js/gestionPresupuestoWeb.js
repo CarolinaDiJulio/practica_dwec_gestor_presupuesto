@@ -28,7 +28,7 @@ function mostrarGastoWeb(idElemento,gasto){
     });
    
 }
-function mostrarGastoAgrupadosWeb(idElemento,agrup,periodo){
+function mostrarGastosAgrupadosWeb(idElemento,agrup,periodo){
     let elemento=document.getElementById(idElemento)
     let nuevaAgrup=document.createElement("div")
     nuevaAgrup.classList.add("agrupacion")
@@ -36,17 +36,19 @@ function mostrarGastoAgrupadosWeb(idElemento,agrup,periodo){
 
     elemento.appendChild(nuevaAgrup)
 
-    let agrupaciones=document.querySelector(".agrupacion")
-    Object.keys(agrup).forEach(prop => {
+    Object.entries(agrup).forEach(([key,value]) => {
         let nuevaProp=document.createElement("div")
         nuevaProp.classList.add("agrupacion-dato")
-        nuevaProp.innerHTML=`<span class="agrupacion-dato-clave">${prop}</span>` 
-        agrupaciones.appendChild(nuevaProp)
+        nuevaProp.innerHTML=`
+        <span class="agrupacion-dato-clave">${key}</span>
+        <br/>
+        <span class="agrupacion-dato-valor">${value}</span>` 
+        nuevaAgrup.appendChild(nuevaProp)
     });
 }
 
 export{
     mostrarDatoEnId,
     mostrarGastoWeb,
-    mostrarGastoAgrupadosWeb
+    mostrarGastosAgrupadosWeb
 }

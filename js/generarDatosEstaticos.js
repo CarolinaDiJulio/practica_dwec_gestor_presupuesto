@@ -59,3 +59,13 @@ let gastosEtiquetaTransporte=gestionPresupuesto.filtrarGastos({etiquetasTiene: [
 for (let gasto of (gastosEtiquetaComida || gastosEtiquetaTransporte) && gastosMenorA50){
     gestionPresupuestoWeb.mostrarGastoWeb("listado-gastos-filtrado-4",gasto)
 }
+
+let gastosPorDia=gestionPresupuesto.agruparGastos("dia")
+
+gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("agrupacion-dia",gastosPorDia,"día")
+
+let gastosPorMes=gestionPresupuesto.agruparGastos("mes")
+gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("agrupacion-mes",gastosPorMes,"mes")
+
+let gastosPorAnyo=gestionPresupuesto.agruparGastos("anyo")
+gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("agrupacion-anyo",gastosPorAnyo,"año")
