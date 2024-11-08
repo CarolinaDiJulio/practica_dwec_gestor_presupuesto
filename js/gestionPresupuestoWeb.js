@@ -36,6 +36,15 @@ function mostrarGastoWeb(idElemento,gasto){
     edGasto.gasto=gasto
     btnEditar.addEventListener("click",edGasto)
     nuevoGasto.appendChild(btnEditar)
+
+    let btnEliminar=document.createElement("button")
+    btnEliminar.textContent="Eliminar"
+    btnEliminar.classList.add("gasto-borrar")
+
+    let borraGasto=new borrarHandle
+    borraGasto.gasto=gasto
+    btnEliminar.addEventListener("click",borraGasto)
+    nuevoGasto.appendChild(btnEliminar)
    
 }
 function mostrarGastosAgrupadosWeb(idElemento,agrup,periodo){
@@ -109,8 +118,9 @@ function EditarHandle(){
     }
 }
 function borrarHandle(){
-    this.hadleEvent=function(evento){
-        gestionPresupuesto.borrarGasto(this.gasto.idElemento)
+    this.handleEvent=function(evento){
+        let id=this.gasto.id
+        gestionPresupuesto.borrarGasto(id)
         repintar()
     }
 }
