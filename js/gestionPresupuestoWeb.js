@@ -27,6 +27,11 @@ function mostrarGastoWeb(idElemento,gasto){
         nuevaEtiqueta.classList.add("gasto-etiquetas-etiqueta")
         nuevaEtiqueta.textContent=`${etiqueta} `
         gastoEtiquetas.appendChild(nuevaEtiqueta)
+
+        let borraEtiqueta=new borrarEtiquetasHandle
+        borraEtiqueta.gasto=gasto
+        borraEtiqueta.etiqueta=etiqueta
+        nuevaEtiqueta.addEventListener("click",borraEtiqueta)
     });
     let btnEditar=document.createElement("button")
     btnEditar.textContent="Editar"
@@ -46,6 +51,7 @@ function mostrarGastoWeb(idElemento,gasto){
     btnEliminar.addEventListener("click",borraGasto)
     nuevoGasto.appendChild(btnEliminar)
    
+    
 }
 function mostrarGastosAgrupadosWeb(idElemento,agrup,periodo){
     let elemento=document.getElementById(idElemento)
@@ -121,6 +127,13 @@ function borrarHandle(){
     this.handleEvent=function(evento){
         let id=this.gasto.id
         gestionPresupuesto.borrarGasto(id)
+        repintar()
+    }
+}
+
+function borrarEtiquetasHandle(){
+    this.handleEvent=function(evento){
+        this.gasto.borrarEtiquetas(this.etiqueta)
         repintar()
     }
 }
