@@ -68,6 +68,23 @@ function actualizarPresupuestoWeb(){
 }
 let btnaActualizarPresupuesto=document.getElementById("actualizarpresupuesto")
 btnaActualizarPresupuesto.addEventListener("click",actualizarPresupuestoWeb)
+
+function nuevoGastoWeb(){
+    let descripcion=prompt("Introduzca la descripción del gasto")
+    let valor=Number(prompt("Introduzca el valor del gasto"))
+    let fecha=new Date(prompt("Introduzca la fecha del gasto"))
+    fecha.toISOString().substring(0, 10);
+    let etiquetas=prompt("Introduzca las etiquetas")
+    let arrEtiquetas=etiquetas.split(", ")
+    
+    let nuevoGasto1=new gestionPresupuesto.CrearGasto(descripcion,valor,fecha,...arrEtiquetas)
+    gestionPresupuesto.anyadirGasto(nuevoGasto1)
+    repintar()
+}
+let btnAnyadirGasto=document.getElementById("anyadirgasto")
+btnAnyadirGasto.addEventListener("click",nuevoGastoWeb)
+
+
 export{
     mostrarDatoEnId,
     mostrarGastoWeb,
