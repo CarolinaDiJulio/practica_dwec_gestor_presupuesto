@@ -138,6 +138,52 @@ function borrarEtiquetasHandle(){
     }
 }
 
+let btnAnyadirGastoForm=document.getElementById("anyadirgasto-formulario")
+btnAnyadirGastoForm.addEventListener("click",nuevoGastoWebFormulario)
+
+function nuevoGastoWebFormulario(){
+
+    let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);;
+    var formulario = plantillaFormulario.querySelector("form");
+    let btnAnyadir=document.getElementById("anyadirgasto-formulario")
+    btnAnyadir.setAttribute("disabled","")
+    formulario.addEventListener("submit", eventoSubmit)
+
+    function eventoSubmit(evento){
+        evento.preventDefault()
+        let descripcion=evento.currentTarget.descripcion.value
+        let valor=Number(evento.currentTarget.valor.value)
+        let fecha=new Date(evento.currentTarget.fecha.value)
+        let etiquetas=evento.currentTarget.etiquetas.value.split(', ')
+
+        let nuevoGasto= new gestionPresupuesto.CrearGasto(descripcion,valor,fecha,...etiquetas)
+        gestionPresupuesto.anyadirGasto(nuevoGasto)
+        repintar()
+        
+        btnAnyadir.removeAttribute("disabled")
+        formulario.remove()
+    }
+    
+    let btnCancelar=formulario.querySelector("button.cancelar")
+   
+    let objCancelar = new eventoCancelar
+    objCancelar.formulario=formulario
+    objCancelar.referenciaBtn=btnAnyadir
+
+    function eventoCancelar(){
+        this.handleEvent=function(evento){
+            this.formulario.remove()
+            this.referenciaBtn.removeAttribute("disabled")
+        }
+    }
+    btnCancelar.addEventListener("click",objCancelar)
+    
+    
+
+    controlesprincipales.appendChild(plantillaFormulario)
+}
+
+
 export{
     mostrarDatoEnId,
     mostrarGastoWeb,
