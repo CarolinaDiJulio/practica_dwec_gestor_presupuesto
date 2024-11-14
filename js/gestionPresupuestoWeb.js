@@ -210,7 +210,9 @@ function EditarHandleFormulario(){
         formulario.etiquetas.value=this.gasto.etiquetas
 
         let objSubmit=new submitHandle
+        objSubmit.formulario=formulario
         objSubmit.gasto=this.gasto
+        formulario.addEventListener("submit",objSubmit)
 
         let btnCancelar=formulario.querySelector("button.cancelar")
 
@@ -227,7 +229,14 @@ function EditarHandleFormulario(){
 }
 function submitHandle(){
     this.handleEvent=function(evento){
+        evento.preventDefault()
+        this.gasto.descripcion=evento.currentTarget.descripcion.value
+        this.gasto.valor=Number(evento.currentTarget.valor.value)
+        this.gasto.fecha=new Date(evento.currentTarget.fecha.value)
+        this.gasto.etiquetas=evento.currentTarget.etiquetas.value.split(', ')
+
         repintar()
+        
     }
 }
 export{
