@@ -162,6 +162,9 @@ function agruparGastos(periodo='mes',etiquetas,fechaDesde,fechaHasta){
        return acc
     },{});
 }
+function transformarListadoEtiquetas(str){
+    return str.split(/[ ,.:;\s]+/)
+}
 export   {
     mostrarPresupuesto,
     actualizarPresupuesto,
@@ -172,5 +175,6 @@ export   {
     calcularTotalGastos,
     calcularBalance,
     filtrarGastos,
-    agruparGastos 
+    agruparGastos,
+    transformarListadoEtiquetas
 }
