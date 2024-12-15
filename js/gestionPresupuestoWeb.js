@@ -254,8 +254,10 @@ function filtrarGastosWeb(evento){
     }else{
         etiq=undefined
     }
+    
     valMin = isNaN(valMin) ? undefined : valMin;
     valMax = isNaN(valMax) ? undefined : valMax;
+
     let objNecesario={
         fechaDesde:fInicial || undefined,
         fechaHasta:fFinal || undefined,
