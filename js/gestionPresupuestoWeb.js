@@ -239,6 +239,47 @@ function submitHandle(){
         
     }
 }
+function filtrarGastosWeb(evento){
+    evento.preventDefault()
+
+    let desc=document.getElementById("formulario-filtrado-descripcion").value ; 
+    let valMin=parseFloat( document.getElementById("formulario-filtrado-valor-minimo").value) ;
+    let valMax=parseFloat(document.getElementById("formulario-filtrado-valor-maximo").value);
+    let fInicial=document.getElementById("formulario-filtrado-fecha-desde").value ;
+    let fFinal=document.getElementById("formulario-filtrado-fecha-hasta").value ;
+    let etiq=document.getElementById("formulario-filtrado-etiquetas-tiene").value;
+
+    if (etiq!==''){
+        etiq=gestionPresupuesto.transformarListadoEtiquetas(etiq)
+    }else{
+        etiq=undefined
+    }
+    valMin = isNaN(valMin) ? undefined : valMin;
+    valMax = isNaN(valMax) ? undefined : valMax;
+    let objNecesario={
+        fechaDesde:fInicial || undefined,
+        fechaHasta:fFinal || undefined,
+        valorMinimo:valMin,
+        valorMaximo:valMax,
+        descripcionContiene:desc || undefined,
+        etiquetasTiene:etiq
+    }
+    let gastosFiltrados=gestionPresupuesto.filtrarGastos(objNecesario)
+
+    let listadoGastos = document.getElementById("listado-gastos-completo");
+    listadoGastos.innerHTML = "";
+
+
+    for(let g of gastosFiltrados){
+        mostrarGastoWeb("listado-gastos-completo",g)
+    }
+
+}
+
+let formu=document.getElementById("formulario-filtrado")
+formu.addEventListener("submit",filtrarGastosWeb)
+
+
 export{
     mostrarDatoEnId,
     mostrarGastoWeb,

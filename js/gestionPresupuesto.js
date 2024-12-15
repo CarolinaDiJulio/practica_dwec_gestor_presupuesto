@@ -165,6 +165,7 @@ function agruparGastos(periodo='mes',etiquetas,fechaDesde,fechaHasta){
 function transformarListadoEtiquetas(str){
     return str.split(/[ ,.:;\s]+/)
 }
+
 export   {
     mostrarPresupuesto,
     actualizarPresupuesto,
