@@ -254,7 +254,7 @@ function filtrarGastosWeb(evento){
     }else{
         etiq=undefined
     }
-    
+
     valMin = isNaN(valMin) ? undefined : valMin;
     valMax = isNaN(valMax) ? undefined : valMax;
 
@@ -281,6 +281,37 @@ function filtrarGastosWeb(evento){
 let formu=document.getElementById("formulario-filtrado")
 formu.addEventListener("submit",filtrarGastosWeb)
 
+let btnGuardarGastos=document.getElementById("guardar-gastos")
+btnGuardarGastos.addEventListener("click",guardarGastosWeb)
+
+function guardarGastosWeb(){
+
+        let listadoGastos=gestionPresupuesto.listarGastos();
+
+        let listadoGastosString=JSON.stringify(listadoGastos)
+
+        localStorage.setItem("GestorGastosDWEC", listadoGastosString)
+}
+let btnCargarGastos=document.getElementById("cargar-gastos")
+btnCargarGastos.addEventListener("click",cargarGastosWeb)
+
+function cargarGastosWeb(){
+
+    
+
+    let gastoLocalStorage=localStorage.getItem("GestorGastosDWEC")
+
+    let gastos
+    if(gastoLocalStorage){
+        gastos=JSON.parse(gastoLocalStorage)
+    }else{
+        gastos=[]
+    }
+
+     gestionPresupuesto.cargarGastos(gastos)
+
+     repintar()
+}
 
 export{
     mostrarDatoEnId,
