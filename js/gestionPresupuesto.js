@@ -20,6 +20,7 @@ function CrearGasto(descripcion, valor,fecha,...etiquetas) {
     this.descripcion=descripcion
     this.valor=(isNaN(valor) || valor<=0) ? 0 : valor
     this.fecha=(!fecha || isNaN(Date.parse(fecha))) ? Date.now() : Date.parse(fecha);
+
     this.etiquetas=(!etiquetas)? [] : etiquetas
 
     this.mostrarGasto=function(){

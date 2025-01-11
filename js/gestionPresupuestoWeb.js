@@ -313,6 +313,39 @@ function cargarGastosWeb(){
      repintar()
 }
 
+let btnCargarGastosApi=document.getElementById("cargar-gastos-api")
+btnCargarGastosApi.addEventListener("click", cargarGastosApi)
+
+function cargarGastosApi(){
+    let nombreUsuario=document.getElementById("nombre_usuario").value.trim()
+    let url=`https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${nombreUsuario}`
+
+    fetch(url)
+        .then(function(respuesta){
+            if(respuesta.ok){
+               return respuesta.json()
+            }else{
+                throw ("Ha habido un error.")
+            }
+        }).then(function(datos){
+
+            //valido la fecha
+            datos=datos.map(gasto=>{
+                if (!gasto.fecha || isNaN(Date.parse(gasto.fecha))){
+                    gasto.fecha=Date.now()
+                }else{
+                    gasto.fecha=Date.parse(gasto.fecha);
+                }
+                return gasto
+            })
+            
+            gestionPresupuesto.cargarGastos(datos)
+            repintar()
+        }).catch(function(error){
+            console.log(`Error: ${error}`)
+        })
+}
+
 export{
     mostrarDatoEnId,
     mostrarGastoWeb,
