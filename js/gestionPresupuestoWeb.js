@@ -210,6 +210,7 @@ function nuevoGastoWebFormulario(){
 function enviarApi(){
     this.handleEvent=function(evento){
         let nombreUsuario=document.getElementById("nombre_usuario").value.trim()
+        nombreUsuario=nombreUsuario.replace(/[^a-zA-Z0-9]/g, "")
         let url=`https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${nombreUsuario}`
 
         let datosForm={
@@ -274,9 +275,48 @@ function EditarHandleFormulario(){
 
         btnCancelar.addEventListener("click",objetoCancelar)
 
+        let btnEnviarApi=formulario.querySelector("button.gasto-enviar-api")
+
+        let objActualizarGastoApi=new actualizarGastoApi
+        objActualizarGastoApi.formulario=formulario
+        objActualizarGastoApi.gasto=this.gasto
+        btnEnviarApi.addEventListener("click",objActualizarGastoApi)
+
         let nuevoGasto=document.querySelector(".gasto")
         nuevoGasto.appendChild(plantillaFormulario)
     }
+}
+function actualizarGastoApi(){
+    this.handleEvent=function(evento){
+    let nombreUsuario=document.getElementById("nombre_usuario").value.trim()
+    nombreUsuario=nombreUsuario.replace(/[^a-zA-Z0-9]/g, "")
+    let idGasto=this.gasto.gastoId
+
+    let url=`https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${nombreUsuario}/${idGasto}`
+    let datosForm={
+        descripcion:this.formulario.descripcion.value,
+        valor:Number(this.formulario.valor.value),
+        fecha:new Date(this.formulario.fecha.value),
+        etiquetas:this.formulario.etiquetas.value.split(', ')
+    }
+    fetch(url,{
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(datosForm)
+    }).then(function(respuesta){
+        if(respuesta.ok){
+            alert("Gasto actualizado.")
+            cargarGastosApi()
+            }else{
+                throw("Ha habido un error.")
+            }
+    }).catch(function(error){
+        console.log(`Error:${error}`)
+    })
+    }
+    
 }
 function submitHandle(){
     this.handleEvent=function(evento){
@@ -367,6 +407,7 @@ btnCargarGastosApi.addEventListener("click", cargarGastosApi)
 
 function cargarGastosApi(){
     let nombreUsuario=document.getElementById("nombre_usuario").value.trim()
+    nombreUsuario=nombreUsuario.replace(/[^a-zA-Z0-9]/g, "")
     let url=`https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${nombreUsuario}`
 
     fetch(url)
@@ -397,6 +438,7 @@ function cargarGastosApi(){
 function BorrarGastoApi(){
     this.handleEvent=function(evento){
         let nombreUsuario=document.getElementById("nombre_usuario").value.trim()
+        nombreUsuario=nombreUsuario.replace(/[^a-zA-Z0-9]/g, "")
         let idGasto=this.id
         let url=`https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${nombreUsuario}/${idGasto}`
         console.log(nombreUsuario,idGasto)
