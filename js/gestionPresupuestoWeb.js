@@ -35,6 +35,7 @@ function mostrarGastoWeb(idElemento,gasto){
         nuevaEtiqueta.addEventListener("click",borraEtiqueta)
     });
 
+    //boton editar
     let btnEditar=document.createElement("button")
     btnEditar.textContent="Editar"
     btnEditar.classList.add("gasto-editar")
@@ -44,6 +45,7 @@ function mostrarGastoWeb(idElemento,gasto){
     btnEditar.addEventListener("click",edGasto)
     nuevoGasto.appendChild(btnEditar)
 
+    //boton eliminar
     let btnEliminar=document.createElement("button")
     btnEliminar.textContent="Eliminar"
     btnEliminar.classList.add("gasto-borrar")
@@ -53,10 +55,21 @@ function mostrarGastoWeb(idElemento,gasto){
     btnEliminar.addEventListener("click",borraGasto)
     nuevoGasto.appendChild(btnEliminar)
    
+    //boton borrar gasto api
+    let btnBorrarGastoApi=document.createElement("button")
+    btnBorrarGastoApi.textContent="Borrar (API)"
+    btnBorrarGastoApi.classList.add("gasto-borrar-api")
+
+    let borrarGastoApi=new BorrarGastoApi
+    borrarGastoApi.gasto=gasto
+    borrarGastoApi.id=gasto.gastoId
+    btnBorrarGastoApi.addEventListener("click",borrarGastoApi)
+    nuevoGasto.appendChild(btnBorrarGastoApi)
+
+    //boton editar gasto form
     let btnEditarGastoForm=document.createElement("button")
     btnEditarGastoForm.textContent="Editar (formulario)"
     btnEditarGastoForm.classList.add("gasto-editar-formulario")
-    
     
     let editarGastoForm=new EditarHandleFormulario
     editarGastoForm.gasto=gasto
@@ -297,8 +310,6 @@ btnCargarGastos.addEventListener("click",cargarGastosWeb)
 
 function cargarGastosWeb(){
 
-    
-
     let gastoLocalStorage=localStorage.getItem("GestorGastosDWEC")
 
     let gastos
@@ -329,7 +340,7 @@ function cargarGastosApi(){
             }
         }).then(function(datos){
 
-            //valido la fecha
+            //modifico la fecha para que no me salga error
             datos=datos.map(gasto=>{
                 if (!gasto.fecha || isNaN(Date.parse(gasto.fecha))){
                     gasto.fecha=Date.now()
@@ -338,12 +349,32 @@ function cargarGastosApi(){
                 }
                 return gasto
             })
-            
+
             gestionPresupuesto.cargarGastos(datos)
             repintar()
         }).catch(function(error){
             console.log(`Error: ${error}`)
         })
+}
+function BorrarGastoApi(){
+    this.handleEvent=function(evento){
+        let nombreUsuario=document.getElementById("nombre_usuario").value.trim()
+        let idGasto=this.id
+        let url=`https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${nombreUsuario}/${idGasto}`
+        console.log(nombreUsuario,idGasto)
+
+        fetch(url,{method:"DELETE"})
+        .then(function(respuesta){
+            if(respuesta.ok){
+                alert("Gasto eliminado.")
+                cargarGastosApi()
+            }else{
+                throw("Ha habido un error.")
+            }
+        }).catch(function(error){
+            console.log(`Error:${error}`)
+        })
+    }
 }
 
 export{
