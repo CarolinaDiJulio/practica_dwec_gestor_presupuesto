@@ -197,8 +197,46 @@ function nuevoGastoWebFormulario(){
 
     
     btnCancelar.addEventListener("click",objCancelar)
+
+    let btnEnviarApi=formulario.querySelector("button.gasto-enviar-api")
+
+    let objEnviarApi=new enviarApi
+    objEnviarApi.formulario=formulario
+    btnEnviarApi.addEventListener("click",objEnviarApi)
+
     
     controlesprincipales.appendChild(plantillaFormulario)
+}
+function enviarApi(){
+    this.handleEvent=function(evento){
+        let nombreUsuario=document.getElementById("nombre_usuario").value.trim()
+        let url=`https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${nombreUsuario}`
+
+        let datosForm={
+            descripcion:this.formulario.descripcion.value,
+            valor:Number(this.formulario.valor.value),
+            fecha:new Date(this.formulario.fecha.value),
+            etiquetas:this.formulario.etiquetas.value.split(', ')
+        }
+        fetch(url,{
+            method:"POST",
+            headers:{
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+            body: JSON.stringify(datosForm)
+        })
+        .then(function(respuesta){
+            if(respuesta.ok){
+                alert("Gasto enviado.")
+                cargarGastosApi()
+            }else{
+                throw("Ha habido un error.")
+            }
+        }).catch(function(error){
+            console.log(`Error:${error}`)
+        })
+
+    }
 }
 function eventoCancelar(){
     this.handleEvent=function(evento){
